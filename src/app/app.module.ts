@@ -4,12 +4,15 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ApiComponent } from './api/api.component';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { HomeComponent } from './home/home.component';
-import { StoplightProjectComponent } from './stoplight-project/stoplight-project.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, StoplightProjectComponent, ApiComponent],
-  imports: [BrowserModule, AppRoutingModule],
+  declarations: [AppComponent, ApiComponent],
+  imports: [BrowserModule, AppRoutingModule, BrowserAnimationsModule, MatToolbarModule, MatInputModule, MatIconModule, MatButtonModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [],
   bootstrap: [AppComponent],

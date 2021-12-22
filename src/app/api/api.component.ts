@@ -8,5 +8,5 @@ import { environment } from '../../environments/environment';
 })
 export class ApiComponent {
   apiDescriptionUrl = 'https://raw.githubusercontent.com/banksiaglobal/fhir-open-api/master/swagger.yml';
-  basePath = environment.basePath ? `${environment.basePath}/fhir-portal-api` : 'fhir-portal-api';
+  basePath = environment.basePath ? `${environment.basePath}/fhir-open-api` : 'fhir-open-api';
 }

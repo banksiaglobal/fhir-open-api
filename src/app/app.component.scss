@@ -1,0 +1,58 @@
+.mat-toolbar, .mat-toolbar h1, .mat-toolbar h2, .mat-toolbar h3, .mat-toolbar h4, .mat-toolbar h5, .mat-toolbar h6 {
+  font: 400 16px/28px Roboto, Helvetica Neue, sans-serif;
+  letter-spacing: normal;
+  margin: 0;
+  color: rgb(100, 100, 100);
+}
+
+::ng-deep .mat-form-field-flex > .mat-form-field-infix { padding: 0.4em 0 !important;}
+::ng-deep .mat-form-field-label-wrapper { top: -1.5em; }
+
+::ng-deep .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+  transform: translateY(-1.1em) scale(.75);
+  width: 133.33333%;
+}
+
+.header {
+  .first-row {
+    max-height: 55px;
+  }
+
+  .second-row {
+    max-height: 40px;
+    justify-content: space-between;
+    padding: 0 64px;
+  }
+
+  .example-spacer {
+    flex: 1 1 auto;
+  }
+
+  .logo-block {
+    display: contents;
+  }
+
+  .user-block {
+    height: 100%;
+    display: flex;
+    border-left: rgb(100, 100, 100) 1px solid;
+  }
+
+  a {
+    cursor: pointer;
+
+    &.active {
+      color: #474aa0;
+    }
+
+    &:hover {
+      color: rgba(71, 74, 160, 0.6);
+    }
+  }
+
+  .search {
+    border: rgb(100, 100, 100) 1px solid;
+    border-radius: 5px;
+    padding: 0 10px;
+  }
+}

@@ -1,18 +1,30 @@
-<!-- Toolbar -->
-<div class="container">
-<!--  <div class="toolbar" role="banner">-->
-<!--    <img-->
-<!--      width="40"-->
-<!--      alt="Angular Logo"-->
-<!--      src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg=="-->
-<!--    />-->
+<div>
+  <mat-toolbar class="header sl-border-b">
+    <mat-toolbar-row class="mat-elevation-z1 bg-white first-row">
+      <div class="logo-block">
+        <img src="assets/images/InterSystemsIcon.svg" alt="Intersystems logo">
+        <span>CLOUD SERVICES PORTAL | Home</span>
+      </div>
+      <span class="example-spacer"></span>
+      <div class="user-block">
+        <button mat-button style="font-size: 16px">
+          <mat-icon inline color="primary" style="font-size: 20px">account_circle</mat-icon>
+          username
+        </button>
+      </div>
+    </mat-toolbar-row>
 
-<!--    <a routerLink="/" routerLinkActive="active">Welcome</a>-->
-<!--    <a routerLink="/stoplight-project" routerLinkActive="active">Stoplight Project</a>-->
-<!--    <a routerLink="/fhir-portal-api" routerLinkActive="active">FHIR Portal API</a>-->
+    <mat-toolbar-row class="second-row">
+      <div *ngFor="let item of headerMenu">
+        <a [routerLink]="item.link"
+           [ngClass]="item.name === 'Reference' ? 'active' : null">
+          {{ item.name }}
+        </a>
+      </div>
 
-<!--    <div class="spacer"></div>-->
-<!--  </div>-->
+      <input matInput type="search" placeholder="Search..." class="search">
+    </mat-toolbar-row>
+  </mat-toolbar>
 
   <div class="docs">
     <router-outlet></router-outlet>
