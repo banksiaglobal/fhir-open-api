@@ -1,0 +1,954 @@
+openapi: 3.0.0
+info:
+  description: "The ISC Portal is designed as an entrypoint for ISC to publish solutions to multiple cloud providers that are consumed by external users."
+  version: 0.0.1
+  title: Portal
+  termsOfService: "#"
+  contact:
+    email: portal-dev@intersystems.com
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+servers:
+  - url: http://{hostname}:{port}/{basePath}
+    description: Local development
+    variables:
+      hostname:
+        default: localhost
+      port:
+        default: "3000"
+      basePath:
+        default: local/v3/api
+  - url: https://portal.{environment}.isccloud.io/v3/api
+    description: Deployed environments
+    variables:
+      environment:
+        default: dev
+
+######################################
+# URL PATHS
+paths:
+  /codes:
+    summary: Operate on sign up codes
+    get:
+      summary: "Get all available sign up codes"
+      responses:
+        "200":
+          $ref: "#/components/responses/CodesResponse"
+      tags:
+        - Codes
+    post:
+      summary: "Generate sign up codes"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                quantity:
+                  type: integer
+      responses:
+        "201":
+          $ref: "#/components/responses/CodesResponse"
+      tags:
+        - Codes
+  /users/{username}:
+    summary: Operate on a specific user
+    get:
+      summary: "Get a specific user"
+      parameters:
+        - name: username
+          in: path
+          schema:
+            type: string
+            default: "testuser"
+          required: true
+      responses:
+        "200":
+          $ref: "#/components/responses/UserResponse"
+      tags:
+        - Users
+    patch:
+      summary: "Operate on a specific user"
+      parameters:
+        - name: username
+          in: path
+          schema:
+            type: string
+            default: "testuser"
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                first_name:
+                  type: string
+                last_name:
+                  type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/UserResponse"
+      tags:
+        - Users
+  /tenants:
+    summary: Operate on tenants
+    post:
+      summary: "Create a tenant"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                owner_name:
+                  type: string
+                tenant_name:
+                  type: string
+      responses:
+        "201":
+          $ref: "#/components/responses/TenantResponse"
+      tags:
+        - Tenants
+  /tenants/{tenantid}:
+    summary: Operate on a specific tenant
+    get:
+      summary: "Get a specific tenant"
+      parameters:
+        - name: tenantid
+          in: path
+          schema:
+            type: string
+            default: "testtenantid"
+          required: true
+      responses:
+        "200":
+          $ref: "#/components/responses/TenantResponse"
+      tags:
+        - Tenants
+  /tenants/{tenantid}/deployments/{deploymentid}/fhirdata:
+    summary: Operate on fhir data from a specific deployment
+    get:
+      summary: "Get fhir data from a specific deployment"
+      parameters:
+        - name: tenantid
+          in: path
+          schema:
+            type: string
+            default: "testtenantid"
+          required: true
+        - name: deploymentid
+          in: path
+          schema:
+            type: string
+            default: "testabcd"
+          required: true
+      responses:
+        "200":
+          $ref: "#/components/responses/FhirDataResponse"
+      tags:
+        - Tenants
+    post:
+      summary: "Clear fhir data on a specific deployment"
+      parameters:
+        - name: tenantid
+          in: path
+          schema:
+            type: string
+            default: "testtenantid"
+          required: true
+        - name: deploymentid
+          in: path
+          schema:
+            type: string
+            default: "testabcd"
+          required: true
+      responses:
+        "201":
+          $ref: "#/components/responses/Generic200"
+      tags:
+        - Tenants
+  /deployments:
+    summary: Operate on deployments
+    get:
+      summary: "List deployments"
+      description: Retrieve a list of all deployments a user has permissions to access.
+      parameters:
+        - name: guid
+          in: query
+          schema:
+            type: string
+            default: "656cf999-76e0-41f8-9ff0-1f4c6c4d9dca"
+      responses:
+        "200":
+          $ref: "#/components/responses/DeploymentsResponse"
+      tags:
+        - Deployment
+    post:
+      summary: "Create deployment"
+      description: "Create a deployment with the given parameters"
+      responses:
+        "201":
+          $ref: "#/components/responses/Generic200"
+      tags:
+        - Deployment
+    delete:
+      summary: "Delete a given deployment"
+      parameters:
+        - name: hash
+          in: query
+          schema:
+            type: string
+            default: testHash
+        - name: stackId
+          in: query
+          schema:
+            type: string
+            default: testStackId
+      responses:
+        "200":
+          $ref: "#/components/responses/Generic200"
+      tags:
+        - Deployment
+  /getresources:
+    summary: "Return resources for a deployment"
+    get:
+      summary: "Return resources for a deployment"
+      parameters:
+        - name: eventtype
+          in: query
+          schema:
+            type: string
+            enum:
+              [
+                "getsecret",
+                "getinstances",
+                "getstats",
+                "getbackups",
+                "getirisinfos",
+              ]
+          required: true
+        - name: deploymentid
+          in: query
+          schema:
+            type: string
+            default: "deployment123"
+        - name: secretname
+          in: query
+          schema:
+            type: string
+            default: "secretstring"
+        - name: keytype
+          in: query
+          schema:
+            type: string
+            default: "customerkey"
+      responses:
+        "200":
+          $ref: "#/components/responses/GetResourcesResponse"
+      tags:
+        - Deployment
+  /admin:
+    summary: "Perform admin functions"
+    get:
+      summary: "Return a list of all customer deployments"
+      responses:
+        "200":
+          $ref: "#/components/responses/AdminResponse"
+      tags:
+        - Deployment
+  /addip:
+    summary: "Adds an IP to an existing AWS Security Group"
+    post:
+      summary: "Adds an IP to an existing AWS Security Group"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SecurityGroup"
+      responses:
+        "200":
+          $ref: "#/components/responses/Generic200"
+      tags:
+        - Operations
+  /vpcpeering:
+    summary: ""
+    post:
+      summary: "Peers the deployed VPC with a given VPC ID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VpcPeering"
+      responses:
+        "200":
+          $ref: "#/components/responses/VpcPeeringResponse"
+      tags:
+        - Operations
+  /backup:
+    summary: "Supports ad-hoc trigger of backup and restore events for an IRIS cluster"
+    post:
+      summary: "Trigger a backup or restore of an IRIS deployment"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BackupCreateSnapshot"
+      responses:
+        "200":
+          $ref: "#/components/responses/CreateSnapshotResponse"
+      tags:
+        - Operations
+  /notifications:
+    summary: "Endpoint for issuing notifications from the application"
+    post:
+      summary: "Create an issue in gitlab instance"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                email:
+                  type: string
+                username:
+                  type: string
+                appContext:
+                  type: string
+                errorDescription:
+                  type: string
+                url:
+                  type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Generic200"
+      tags:
+        - Operations
+
+######################################
+# COMPONENTS
+components:
+  ####################################
+  # SCHEMA COMPONENTS
+  schemas:
+    FhirData:
+      type: object
+      description: Fhir Data Get Response Scheme
+      properties:
+        status:
+          type: integer
+        payload:
+          type: array
+          items:
+            $ref: "#/components/schemas/FhirDataPayload"
+    FhirDataPayload:
+      type: object
+      description: Fhir Data Get Payload Scheme
+      properties:
+        totalResources:
+          type: integer
+        totalPatients:
+          type: integer
+        diskSpace:
+          type: integer
+    CodeObject:
+      type: object
+      description: A Sign Up Code
+      properties:
+        code:
+          type: string
+    Codes:
+      type: object
+      description: "The response schema to the codes API endpoint"
+      properties:
+        codes:
+          type: array
+          items:
+            $ref: "#/components/schemas/CodeObject"
+    User:
+      type: object
+      description: A user
+      properties:
+        item_type:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        tenants:
+          type: object
+          properties:
+            tenantid:
+              type: object
+              properties:
+                tenant_name:
+                  type: string
+                role:
+                  type: string
+                default:
+                  type: boolean
+                  default: false
+        created_at:
+          type: string
+          format: date-time
+    Tenant:
+      type: object
+      properties:
+        item_type:
+          type: string
+        tenantid:
+          type: string
+        tenant_name:
+          type: string
+        owner_name:
+          type: string
+        account:
+          type: string
+        members:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+    Member:
+      type: object
+      properties:
+        item_type:
+          type: string
+        tenantid:
+          type: string
+        username:
+          type: string
+        role:
+          type: string
+        member_since:
+          type: string
+          format: date-time
+    Deployment:
+      type: object
+      properties:
+        item_type:
+          type: string
+        deploymentid:
+          type: string
+        tenantid:
+          type: string
+        owner_name:
+          type: string
+        stackname:
+          type: string
+        deploymentname:
+          type: string
+        deploymentsize:
+          type: string
+        region:
+          type: string
+        cloudprovider:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum: ["NEW", "INPROGRESS", "COMPLETED", "FAILED", "REFRESH"]
+        account:
+          type: string
+        deploymenttype:
+          type: string
+        offer_name:
+          type: string
+        access_list:
+          type: array
+          items:
+            $ref: "#/components/schemas/SecurityGroup"
+        resource_list:
+          type: array
+          items:
+            $ref: "#/components/schemas/DeploymentResource"
+    DeploymentResource:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+    BackupCreateSnapshotBackup:
+      type: string
+      description: "The response schema to backup API endpoint when eventtype is backup. This is the stdout of the ssm get command invocation StandardOutputContent."
+    BackupCreateSnapshotRestore:
+      type: object
+      description: "The response schema to backup API endpoint when eventtype is restore. This output is the return of boto3.backup.start_restore_job."
+      properties:
+        RestoreJobId:
+          type: string
+    BackupCreateSnapshot:
+      type: object
+      description: "The input schema to the backup API endpoint that supports both backup and restore functionality"
+      properties:
+        deploymentId:
+          type: string
+        eventType:
+          type: string
+          enum: ["backup", "restore"]
+          default: backup
+        recoveryPointArn:
+          type: string
+    Secret:
+      type: object
+      description: "The secret object schema"
+      properties:
+        customerkey:
+          type: string
+        mspkey:
+          type: string
+    GetResourcesGetIrisInfos:
+      type: object
+      description: "The response schema from the getresources API with eventtype getirisinfos"
+      properties:
+        jdbcurl:
+          type: string
+        jdbcdownload:
+          type: string
+        irisversion:
+          type: string
+        irises:
+          type: array
+          items:
+            $ref: "#/components/schemas/GetResourcesGetIrisInfosObject"
+    GetResourcesGetIrisInfosObject:
+      type: object
+      description: "The irisinfos object schema"
+      properties:
+        deploymentid:
+          type: string
+        irisstatus:
+          type: string
+        irisstate:
+          type: string
+        mirrorstatus:
+          type: string
+        irisrole:
+          type: string
+        name:
+          type: string
+        cpu:
+          type: string
+        disk:
+          type: string
+        ram:
+          type: string
+    GetResourcesGetStats:
+      type: object
+      description: "The response schema from the getresources API with eventtype getstats"
+      properties:
+        irisinstance:
+          type: array
+          items:
+            $ref: "#/components/schemas/GetResourcesGetStatsObject"
+    GetResourcesGetStatsObject:
+      type: object
+      description: "The stats object for get resources"
+      properties:
+        deploymentid:
+          type: string
+        irisstatus:
+          type: string
+        mirrorstatus:
+          type: string
+        version:
+          type: string
+        role:
+          type: string
+        name:
+          type: string
+        cpu:
+          type: string
+        disk:
+          type: string
+        ram:
+          type: string
+    GetResourcesGetInstances:
+      type: object
+      description: "The response schema from the getresources API with eventtype of getinstances"
+      properties:
+        count:
+          type: integer
+        instances:
+          type: array
+          items:
+            $ref: "#/components/schemas/GetResourcesGetInstancesObject"
+    GetResourcesGetInstancesObject:
+      type: object
+      description: "The instance object for get resources"
+      properties:
+        deploymentid:
+          type: string
+        status:
+          type: string
+          enum: [pending, running, shutting-down, terminated, stopping, stopped]
+        name:
+          type: string
+        privateip:
+          type: array
+          items:
+            type: string
+        publicip:
+          type: string
+        cloudid:
+          type: string
+    GetResourcesGetSecret:
+      type: string
+      description: "The response schema from the getresources API with eventtype of getsecret. Returns a single, unnamed secret based on key_type parameter."
+    GetResourcesGetBackups:
+      type: object
+      description: "The response schema from the getresources API with eventtype of getbackups"
+      properties:
+        recoverypoints:
+          type: integer
+        deploymentid:
+          type: string
+        vaultname:
+          type: string
+        backups:
+          type: array
+          items:
+            $ref: "#/components/schemas/GetResourcesGetBackupsObject"
+    GetResourcesGetBackupsObject:
+      type: object
+      description: "The backup object schema for getresources"
+      properties:
+        type:
+          type: string
+        name:
+          type: string
+        status:
+          type: string
+          enum: ["COMPLETED", "IN PROGRESS", "STARTED", "FAILED"]
+        completiondate:
+          type: string
+          format: date-time
+        resourcetype:
+          type: string
+          enum: ["EC2"]
+        recoverypointarn:
+          type: string
+    ScheduledBackup:
+      type: object
+      description: "The response schema from the backup scheduled task"
+      properties:
+        CommandId:
+          type: string
+          default: cmdid-00001
+    VpcPeering:
+      type: object
+      description: "The input schema to the vpcpeering API endpoint"
+      properties:
+        thisvpcid:
+          type: string
+          default: vpc-12345
+        peervpcid:
+          type: string
+          default: vpc-67890
+        peeraccountnumber:
+          type: string
+          default: aws1234567890
+        peerregion:
+          type: string
+          default: us-somewhere-1
+    VpcPeeringConnection:
+      type: object
+      description: "The response schema from the vpcpeering API endpoint"
+      properties:
+        AccepterVpcInfo:
+          type: object
+        ExpirationTime:
+          type: string
+          format: date-time
+        RequesterVpcInfo:
+          type: object
+        Status:
+          type: string
+          enum:
+            [
+              initiating-request,
+              pending-acceptance,
+              active,
+              deleted,
+              rejected,
+              failed,
+              expired,
+              provisioning,
+              deleting,
+            ]
+    SecurityGroup:
+      type: object
+      description: "The input schema to the addip API endpoint"
+      properties:
+        deploymentid:
+          type: string
+          default: Deployment123
+        protocol:
+          type: string
+          default: TCP
+        cidr:
+          type: string
+          default: 1.1.1.1/32
+        fromport:
+          type: integer
+          default: 53
+        toport:
+          type: integer
+          default: 53
+    AdminDeployments:
+      type: object
+      description: "The response schema to the admin API endpoint"
+      properties:
+        customerhash:
+          type: string
+          description: "A UUID that uniquely identifies a customer"
+        deployments:
+          type: array
+          items:
+            $ref: "#/components/schemas/AdminDeployment"
+    AdminDeployment:
+      type: object
+      description: "The deployment object referenced in the list returned by the admin API endpoint"
+      properties:
+        deploymenthash:
+          type: string
+        deploymentname:
+          type: string
+        samip:
+          type: string
+        stackname:
+          type: string
+    Deployments:
+      type: object
+      description: "The response schema to the deployments API endpoint"
+      properties:
+        deployments:
+          type: array
+          items:
+            $ref: "#/components/schemas/DeploymentObject"
+    DeploymentObject:
+      type: object
+      description: "The deployment object schema"
+      properties:
+        deploymentid:
+          type: string
+        deploymentname:
+          type: string
+        stackname:
+          type: string
+        region:
+          type: string
+        cloudprovider:
+          type: string
+        provisiontime:
+          type: string
+        deploymenttype:
+          type: string
+        deploymentsize:
+          type: string
+        status:
+          type: string
+        guid:
+          type: string
+        irisuser:
+          type: string
+        irispassword:
+          type: string
+        samip:
+          type: string
+        bastionip:
+          type: string
+        bastionkeydownload:
+          type: string
+        bastionsshcommand:
+          type: string
+        natip:
+          type: string
+        nlbhostname:
+          type: string
+        vpcid:
+          type: string
+        openvpnurl:
+          type: string
+        openvpnconnecturl:
+          type: string
+        grafanaurl:
+          type: string
+        prometheusurl:
+          type: string
+        prometheusurltargets:
+          type: string
+        irisprimaryinstanceid:
+          type: string
+        irisprimaryhostname:
+          type: string
+        irisprimaryurl:
+          type: string
+        irisprimaryjdbc:
+          type: string
+        irisprimaryjdbcdownload:
+          type: string
+        irisprimaryprometheusurl:
+          type: string
+        irisprimaryterminal:
+          type: string
+        irissecondaryinstanceid:
+          type: string
+        irissecondaryhostname:
+          type: string
+        irissecondaryurl:
+          type: string
+        irissecondaryjdbc:
+          type: string
+        irissecondaryjdbcdownload:
+          type: string
+        irissecondaryprometheusurl:
+          type: string
+        irissecondaryterminal:
+          type: string
+        irisarbeiterinstanceid:
+          type: string
+        irisarbeiterhostname:
+          type: string
+        irisarbeiterurl:
+          type: string
+        irisarbeiterjdbc:
+          type: string
+        irisarbeiterjdbcdownload:
+          type: string
+        irisarbeiterprometheusurl:
+          type: string
+        irisarbeiterterminal:
+          type: string
+        keydownload:
+          type: string
+        irisfhirendpoint:
+          type: string
+        resources:
+          $ref: "#/components/schemas/CloudFormationListStackResources"
+    CloudFormationListStackResources:
+      type: object
+      description: "Partial boto3 response object"
+      properties:
+        ResponseMetadata:
+          type: object
+        StackResourceSummaries:
+          type: array
+          items:
+            $ref: "#/components/schemas/CloudFormationStackResourceSummaries"
+    CloudFormationStackResourceSummaries:
+      type: object
+      description: "Partial boto3 response object"
+      properties:
+        DriftInformation:
+          type: object
+        LastUpdatedTimestamp:
+          type: string
+          format: date-time
+        LogicalResourceId:
+          type: string
+        PhysicalResourceId:
+          type: string
+        ResourceStatus:
+          type: string
+        ResourceType:
+          type: string
+
+  ####################################
+  # RESPONSE COMPONENTS
+  responses:
+    FhirDataResponse:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/FhirData"
+      description: "Response object to Get Fhir Data"
+    CodesResponse:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Codes"
+      description: A list of codes
+    UserResponse:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/User"
+      description: "Response object to user API endpoint"
+    TenantResponse:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Tenant"
+      description: "Response object to Tenant API endpoint"
+    CreateSnapshotResponse:
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: "#/components/schemas/BackupCreateSnapshotBackup"
+              - $ref: "#/components/schemas/BackupCreateSnapshotRestore"
+      description: "Response object to backup API endpoint"
+    GetResourcesResponse:
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: "#/components/schemas/GetResourcesGetBackups"
+              - $ref: "#/components/schemas/GetResourcesGetSecret"
+              - $ref: "#/components/schemas/GetResourcesGetInstances"
+              - $ref: "#/components/schemas/GetResourcesGetStats"
+              - $ref: "#/components/schemas/GetResourcesGetIrisInfos"
+      description: "The getresources response object dependent on the parameters passed"
+    ScheduledBackupResponse:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ScheduledBackup"
+      description: ""
+    DeploymentsResponse:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Deployments"
+      description: A list of deployments
+    VpcPeeringResponse:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/VpcPeeringConnection"
+      description: "Response object to the vpcpeering API endpoint"
+    AdminResponse:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/AdminDeployments"
+      description: "Response object to the admin API endpoint"
+    Generic200:
+      content:
+        application/json:
+          schema:
+            type: object
+      description: "A message indicating the result."
