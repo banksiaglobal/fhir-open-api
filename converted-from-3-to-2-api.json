@@ -1,0 +1,1686 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "0.0.1",
+    "title": "Portal",
+    "description": "The ISC Portal is designed as an entrypoint for ISC to publish solutions to multiple cloud providers that are consumed by external users.",
+    "contact": {
+      "email": "portal-dev@intersystems.com"
+    }
+  },
+  "host": "localhost:3000",
+  "basePath": "/local/v3/api",
+  "securityDefinitions": {},
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/codes": {
+      "get": {
+        "description": "Get all available sign up codes",
+        "summary": "Get all available sign up codes",
+        "tags": [
+          "Codes"
+        ],
+        "operationId": "Getallavailablesignupcodes",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "A list of codes",
+            "schema": {
+              "$ref": "#/definitions/Codes"
+            },
+            "headers": {}
+          }
+        }
+      },
+      "post": {
+        "description": "Generate sign up codes",
+        "summary": "Generate sign up codes",
+        "tags": [
+          "Codes"
+        ],
+        "operationId": "Generatesignupcodes",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": false,
+            "enum": [
+              "application/json"
+            ],
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/CodesRequest"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "A list of codes",
+            "schema": {
+              "$ref": "#/definitions/Codes"
+            },
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/users/{username}": {
+      "get": {
+        "description": "Get a specific user",
+        "summary": "Get a specific user",
+        "tags": [
+          "Users"
+        ],
+        "operationId": "Getaspecificuser",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response object to user API endpoint",
+            "schema": {
+              "$ref": "#/definitions/User"
+            },
+            "headers": {}
+          }
+        }
+      },
+      "patch": {
+        "description": "Operate on a specific user",
+        "summary": "Operate on a specific user",
+        "tags": [
+          "Users"
+        ],
+        "operationId": "Operateonaspecificuser",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": false,
+            "enum": [
+              "application/json"
+            ],
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/UsersRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response object to user API endpoint",
+            "schema": {
+              "$ref": "#/definitions/User"
+            },
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/tenants": {
+      "post": {
+        "description": "Create a tenant",
+        "summary": "Create a tenant",
+        "tags": [
+          "Tenants"
+        ],
+        "operationId": "Createatenant",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": false,
+            "enum": [
+              "application/json"
+            ],
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/TenantsRequest"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Response object to Tenant API endpoint",
+            "schema": {
+              "$ref": "#/definitions/Tenant"
+            },
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/tenants/{tenantid}": {
+      "get": {
+        "description": "Get a specific tenant",
+        "summary": "Get a specific tenant",
+        "tags": [
+          "Tenants"
+        ],
+        "operationId": "Getaspecifictenant",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "tenantid",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response object to Tenant API endpoint",
+            "schema": {
+              "$ref": "#/definitions/Tenant"
+            },
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/tenants/{tenantid}/deployments/{deploymentid}/fhirdata": {
+      "get": {
+        "description": "Get fhir data from a specific deployment",
+        "summary": "Get fhir data from a specific deployment",
+        "tags": [
+          "Tenants"
+        ],
+        "operationId": "Getfhirdatafromaspecificdeployment",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "tenantid",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "deploymentid",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response object to Get Fhir Data",
+            "schema": {
+              "$ref": "#/definitions/FhirData"
+            },
+            "headers": {}
+          }
+        }
+      },
+      "post": {
+        "description": "Clear fhir data on a specific deployment",
+        "summary": "Clear fhir data on a specific deployment",
+        "tags": [
+          "Tenants"
+        ],
+        "operationId": "Clearfhirdataonaspecificdeployment",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "tenantid",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "deploymentid",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "A message indicating the result.",
+            "schema": {
+              "type": "object",
+              "default": ""
+            },
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/deployments": {
+      "get": {
+        "description": "Retrieve a list of all deployments a user has permissions to access.",
+        "summary": "List deployments",
+        "tags": [
+          "Deployment"
+        ],
+        "operationId": "Listdeployments",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "guid",
+            "in": "query",
+            "required": false,
+            "default": "656cf999-76e0-41f8-9ff0-1f4c6c4d9dca",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of deployments",
+            "schema": {
+              "$ref": "#/definitions/Deployments"
+            },
+            "headers": {}
+          }
+        }
+      },
+      "post": {
+        "description": "Create a deployment with the given parameters",
+        "summary": "Create deployment",
+        "tags": [
+          "Deployment"
+        ],
+        "operationId": "Createdeployment",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "A message indicating the result.",
+            "schema": {
+              "type": "object",
+              "default": ""
+            },
+            "headers": {}
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete a given deployment",
+        "summary": "Delete a given deployment",
+        "tags": [
+          "Deployment"
+        ],
+        "operationId": "Deleteagivendeployment",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "hash",
+            "in": "query",
+            "required": false,
+            "default": "testHash",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "stackId",
+            "in": "query",
+            "required": false,
+            "default": "testStackId",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A message indicating the result.",
+            "schema": {
+              "type": "object",
+              "default": ""
+            },
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/getresources": {
+      "get": {
+        "description": "Return resources for a deployment",
+        "summary": "Return resources for a deployment",
+        "tags": [
+          "Deployment"
+        ],
+        "operationId": "Returnresourcesforadeployment",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "eventtype",
+            "in": "query",
+            "required": true,
+            "enum": [
+              "getsecret",
+              "getinstances",
+              "getstats",
+              "getbackups",
+              "getirisinfos"
+            ],
+            "type": "string"
+          },
+          {
+            "name": "deploymentid",
+            "in": "query",
+            "required": false,
+            "default": "deployment123",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "secretname",
+            "in": "query",
+            "required": false,
+            "default": "secretstring",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "keytype",
+            "in": "query",
+            "required": false,
+            "default": "customerkey",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The getresources response object dependent on the parameters passed",
+            "schema": {
+              "default": ""
+            },
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/admin": {
+      "get": {
+        "description": "Return a list of all customer deployments",
+        "summary": "Return a list of all customer deployments",
+        "tags": [
+          "Deployment"
+        ],
+        "operationId": "Returnalistofallcustomerdeployments",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Response object to the admin API endpoint",
+            "schema": {
+              "$ref": "#/definitions/AdminDeployments"
+            },
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/addip": {
+      "post": {
+        "description": "Adds an IP to an existing AWS Security Group",
+        "summary": "Adds an IP to an existing AWS Security Group",
+        "tags": [
+          "Operations"
+        ],
+        "operationId": "AddsanIPtoanexistingAWSSecurityGroup",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": false,
+            "enum": [
+              "application/json"
+            ],
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/SecurityGroup"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A message indicating the result.",
+            "schema": {
+              "type": "object",
+              "default": ""
+            },
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/vpcpeering": {
+      "post": {
+        "description": "Peers the deployed VPC with a given VPC ID",
+        "summary": "Peers the deployed VPC with a given VPC ID",
+        "tags": [
+          "Operations"
+        ],
+        "operationId": "PeersthedeployedVPCwithagivenVPCID",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": false,
+            "enum": [
+              "application/json"
+            ],
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/VpcPeering"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response object to the vpcpeering API endpoint",
+            "schema": {
+              "$ref": "#/definitions/VpcPeeringConnection"
+            },
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/backup": {
+      "post": {
+        "description": "Trigger a backup or restore of an IRIS deployment",
+        "summary": "Trigger a backup or restore of an IRIS deployment",
+        "tags": [
+          "Operations"
+        ],
+        "operationId": "TriggerabackuporrestoreofanIRISdeployment",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": false,
+            "enum": [
+              "application/json"
+            ],
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/BackupCreateSnapshot"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response object to backup API endpoint",
+            "schema": {
+              "default": ""
+            },
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/notifications": {
+      "post": {
+        "description": "Create an issue in gitlab instance",
+        "summary": "Create an issue in gitlab instance",
+        "tags": [
+          "Operations"
+        ],
+        "operationId": "Createanissueingitlabinstance",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": false,
+            "enum": [
+              "application/json"
+            ],
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/NotificationsRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A message indicating the result.",
+            "schema": {
+              "type": "object",
+              "default": ""
+            },
+            "headers": {}
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "FhirData": {
+      "title": "FhirData",
+      "description": "Fhir Data Get Response Scheme",
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "payload": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FhirDataPayload"
+          }
+        }
+      }
+    },
+    "FhirDataPayload": {
+      "title": "FhirDataPayload",
+      "description": "Fhir Data Get Payload Scheme",
+      "type": "object",
+      "properties": {
+        "totalResources": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "totalPatients": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "diskSpace": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "CodeObject": {
+      "title": "CodeObject",
+      "description": "A Sign Up Code",
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string"
+        }
+      }
+    },
+    "Codes": {
+      "title": "Codes",
+      "description": "The response schema to the codes API endpoint",
+      "type": "object",
+      "properties": {
+        "codes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CodeObject"
+          }
+        }
+      }
+    },
+    "User": {
+      "title": "User",
+      "description": "A user",
+      "type": "object",
+      "properties": {
+        "item_type": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "first_name": {
+          "type": "string"
+        },
+        "last_name": {
+          "type": "string"
+        },
+        "tenants": {
+          "$ref": "#/definitions/Tenants"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "Tenant": {
+      "title": "Tenant",
+      "type": "object",
+      "properties": {
+        "item_type": {
+          "type": "string"
+        },
+        "tenantid": {
+          "type": "string"
+        },
+        "tenant_name": {
+          "type": "string"
+        },
+        "owner_name": {
+          "type": "string"
+        },
+        "account": {
+          "type": "string"
+        },
+        "members": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "Member": {
+      "title": "Member",
+      "type": "object",
+      "properties": {
+        "item_type": {
+          "type": "string"
+        },
+        "tenantid": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "member_since": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "Deployment": {
+      "title": "Deployment",
+      "type": "object",
+      "properties": {
+        "item_type": {
+          "type": "string"
+        },
+        "deploymentid": {
+          "type": "string"
+        },
+        "tenantid": {
+          "type": "string"
+        },
+        "owner_name": {
+          "type": "string"
+        },
+        "stackname": {
+          "type": "string"
+        },
+        "deploymentname": {
+          "type": "string"
+        },
+        "deploymentsize": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        },
+        "cloudprovider": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "$ref": "#/definitions/Status"
+        },
+        "account": {
+          "type": "string"
+        },
+        "deploymenttype": {
+          "type": "string"
+        },
+        "offer_name": {
+          "type": "string"
+        },
+        "access_list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SecurityGroup"
+          }
+        },
+        "resource_list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DeploymentResource"
+          }
+        }
+      }
+    },
+    "DeploymentResource": {
+      "title": "DeploymentResource",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "BackupCreateSnapshotRestore": {
+      "title": "BackupCreateSnapshotRestore",
+      "description": "The response schema to backup API endpoint when eventtype is restore. This output is the return of boto3.backup.start_restore_job.",
+      "type": "object",
+      "properties": {
+        "RestoreJobId": {
+          "type": "string"
+        }
+      }
+    },
+    "BackupCreateSnapshot": {
+      "title": "BackupCreateSnapshot",
+      "description": "The input schema to the backup API endpoint that supports both backup and restore functionality",
+      "type": "object",
+      "properties": {
+        "deploymentId": {
+          "type": "string"
+        },
+        "eventType": {
+          "$ref": "#/definitions/EventType"
+        },
+        "recoveryPointArn": {
+          "type": "string"
+        }
+      }
+    },
+    "Secret": {
+      "title": "Secret",
+      "description": "The secret object schema",
+      "type": "object",
+      "properties": {
+        "customerkey": {
+          "type": "string"
+        },
+        "mspkey": {
+          "type": "string"
+        }
+      }
+    },
+    "GetResourcesGetIrisInfos": {
+      "title": "GetResourcesGetIrisInfos",
+      "description": "The response schema from the getresources API with eventtype getirisinfos",
+      "type": "object",
+      "properties": {
+        "jdbcurl": {
+          "type": "string"
+        },
+        "jdbcdownload": {
+          "type": "string"
+        },
+        "irisversion": {
+          "type": "string"
+        },
+        "irises": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GetResourcesGetIrisInfosObject"
+          }
+        }
+      }
+    },
+    "GetResourcesGetIrisInfosObject": {
+      "title": "GetResourcesGetIrisInfosObject",
+      "description": "The irisinfos object schema",
+      "type": "object",
+      "properties": {
+        "deploymentid": {
+          "type": "string"
+        },
+        "irisstatus": {
+          "type": "string"
+        },
+        "irisstate": {
+          "type": "string"
+        },
+        "mirrorstatus": {
+          "type": "string"
+        },
+        "irisrole": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "cpu": {
+          "type": "string"
+        },
+        "disk": {
+          "type": "string"
+        },
+        "ram": {
+          "type": "string"
+        }
+      }
+    },
+    "GetResourcesGetStats": {
+      "title": "GetResourcesGetStats",
+      "description": "The response schema from the getresources API with eventtype getstats",
+      "type": "object",
+      "properties": {
+        "irisinstance": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GetResourcesGetStatsObject"
+          }
+        }
+      }
+    },
+    "GetResourcesGetStatsObject": {
+      "title": "GetResourcesGetStatsObject",
+      "description": "The stats object for get resources",
+      "type": "object",
+      "properties": {
+        "deploymentid": {
+          "type": "string"
+        },
+        "irisstatus": {
+          "type": "string"
+        },
+        "mirrorstatus": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "cpu": {
+          "type": "string"
+        },
+        "disk": {
+          "type": "string"
+        },
+        "ram": {
+          "type": "string"
+        }
+      }
+    },
+    "GetResourcesGetInstances": {
+      "title": "GetResourcesGetInstances",
+      "description": "The response schema from the getresources API with eventtype of getinstances",
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "instances": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GetResourcesGetInstancesObject"
+          }
+        }
+      }
+    },
+    "GetResourcesGetInstancesObject": {
+      "title": "GetResourcesGetInstancesObject",
+      "description": "The instance object for get resources",
+      "type": "object",
+      "properties": {
+        "deploymentid": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/definitions/Status1"
+        },
+        "name": {
+          "type": "string"
+        },
+        "privateip": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "publicip": {
+          "type": "string"
+        },
+        "cloudid": {
+          "type": "string"
+        }
+      }
+    },
+    "GetResourcesGetBackups": {
+      "title": "GetResourcesGetBackups",
+      "description": "The response schema from the getresources API with eventtype of getbackups",
+      "type": "object",
+      "properties": {
+        "recoverypoints": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "deploymentid": {
+          "type": "string"
+        },
+        "vaultname": {
+          "type": "string"
+        },
+        "backups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GetResourcesGetBackupsObject"
+          }
+        }
+      }
+    },
+    "GetResourcesGetBackupsObject": {
+      "title": "GetResourcesGetBackupsObject",
+      "description": "The backup object schema for getresources",
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/definitions/Status2"
+        },
+        "completiondate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "resourcetype": {
+          "$ref": "#/definitions/Resourcetype"
+        },
+        "recoverypointarn": {
+          "type": "string"
+        }
+      }
+    },
+    "ScheduledBackup": {
+      "title": "ScheduledBackup",
+      "description": "The response schema from the backup scheduled task",
+      "type": "object",
+      "properties": {
+        "CommandId": {
+          "example": "cmdid-00001",
+          "type": "string",
+          "default": "cmdid-00001"
+        }
+      }
+    },
+    "VpcPeering": {
+      "title": "VpcPeering",
+      "description": "The input schema to the vpcpeering API endpoint",
+      "type": "object",
+      "properties": {
+        "thisvpcid": {
+          "example": "vpc-12345",
+          "type": "string",
+          "default": "vpc-12345"
+        },
+        "peervpcid": {
+          "example": "vpc-67890",
+          "type": "string",
+          "default": "vpc-67890"
+        },
+        "peeraccountnumber": {
+          "example": "aws1234567890",
+          "type": "string",
+          "default": "aws1234567890"
+        },
+        "peerregion": {
+          "example": "us-somewhere-1",
+          "type": "string",
+          "default": "us-somewhere-1"
+        }
+      }
+    },
+    "VpcPeeringConnection": {
+      "title": "VpcPeeringConnection",
+      "description": "The response schema from the vpcpeering API endpoint",
+      "type": "object",
+      "properties": {
+        "AccepterVpcInfo": {
+          "type": "object"
+        },
+        "ExpirationTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "RequesterVpcInfo": {
+          "type": "object"
+        },
+        "Status": {
+          "$ref": "#/definitions/Status3"
+        }
+      }
+    },
+    "SecurityGroup": {
+      "title": "SecurityGroup",
+      "description": "The input schema to the addip API endpoint",
+      "type": "object",
+      "properties": {
+        "deploymentid": {
+          "example": "Deployment123",
+          "type": "string",
+          "default": "Deployment123"
+        },
+        "protocol": {
+          "example": "TCP",
+          "type": "string",
+          "default": "TCP"
+        },
+        "cidr": {
+          "example": "1.1.1.1/32",
+          "type": "string",
+          "default": "1.1.1.1/32"
+        },
+        "fromport": {
+          "example": 53,
+          "type": "integer",
+          "default": 53,
+          "format": "int32"
+        },
+        "toport": {
+          "example": 53,
+          "type": "integer",
+          "default": 53,
+          "format": "int32"
+        }
+      }
+    },
+    "AdminDeployments": {
+      "title": "AdminDeployments",
+      "description": "The response schema to the admin API endpoint",
+      "type": "object",
+      "properties": {
+        "customerhash": {
+          "description": "A UUID that uniquely identifies a customer",
+          "type": "string"
+        },
+        "deployments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AdminDeployment"
+          }
+        }
+      }
+    },
+    "AdminDeployment": {
+      "title": "AdminDeployment",
+      "description": "The deployment object referenced in the list returned by the admin API endpoint",
+      "type": "object",
+      "properties": {
+        "deploymenthash": {
+          "type": "string"
+        },
+        "deploymentname": {
+          "type": "string"
+        },
+        "samip": {
+          "type": "string"
+        },
+        "stackname": {
+          "type": "string"
+        }
+      }
+    },
+    "Deployments": {
+      "title": "Deployments",
+      "description": "The response schema to the deployments API endpoint",
+      "type": "object",
+      "properties": {
+        "deployments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DeploymentObject"
+          }
+        }
+      }
+    },
+    "DeploymentObject": {
+      "title": "DeploymentObject",
+      "description": "The deployment object schema",
+      "type": "object",
+      "properties": {
+        "deploymentid": {
+          "type": "string"
+        },
+        "deploymentname": {
+          "type": "string"
+        },
+        "stackname": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        },
+        "cloudprovider": {
+          "type": "string"
+        },
+        "provisiontime": {
+          "type": "string"
+        },
+        "deploymenttype": {
+          "type": "string"
+        },
+        "deploymentsize": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "guid": {
+          "type": "string"
+        },
+        "irisuser": {
+          "type": "string"
+        },
+        "irispassword": {
+          "type": "string"
+        },
+        "samip": {
+          "type": "string"
+        },
+        "bastionip": {
+          "type": "string"
+        },
+        "bastionkeydownload": {
+          "type": "string"
+        },
+        "bastionsshcommand": {
+          "type": "string"
+        },
+        "natip": {
+          "type": "string"
+        },
+        "nlbhostname": {
+          "type": "string"
+        },
+        "vpcid": {
+          "type": "string"
+        },
+        "openvpnurl": {
+          "type": "string"
+        },
+        "openvpnconnecturl": {
+          "type": "string"
+        },
+        "grafanaurl": {
+          "type": "string"
+        },
+        "prometheusurl": {
+          "type": "string"
+        },
+        "prometheusurltargets": {
+          "type": "string"
+        },
+        "irisprimaryinstanceid": {
+          "type": "string"
+        },
+        "irisprimaryhostname": {
+          "type": "string"
+        },
+        "irisprimaryurl": {
+          "type": "string"
+        },
+        "irisprimaryjdbc": {
+          "type": "string"
+        },
+        "irisprimaryjdbcdownload": {
+          "type": "string"
+        },
+        "irisprimaryprometheusurl": {
+          "type": "string"
+        },
+        "irisprimaryterminal": {
+          "type": "string"
+        },
+        "irissecondaryinstanceid": {
+          "type": "string"
+        },
+        "irissecondaryhostname": {
+          "type": "string"
+        },
+        "irissecondaryurl": {
+          "type": "string"
+        },
+        "irissecondaryjdbc": {
+          "type": "string"
+        },
+        "irissecondaryjdbcdownload": {
+          "type": "string"
+        },
+        "irissecondaryprometheusurl": {
+          "type": "string"
+        },
+        "irissecondaryterminal": {
+          "type": "string"
+        },
+        "irisarbeiterinstanceid": {
+          "type": "string"
+        },
+        "irisarbeiterhostname": {
+          "type": "string"
+        },
+        "irisarbeiterurl": {
+          "type": "string"
+        },
+        "irisarbeiterjdbc": {
+          "type": "string"
+        },
+        "irisarbeiterjdbcdownload": {
+          "type": "string"
+        },
+        "irisarbeiterprometheusurl": {
+          "type": "string"
+        },
+        "irisarbeiterterminal": {
+          "type": "string"
+        },
+        "keydownload": {
+          "type": "string"
+        },
+        "irisfhirendpoint": {
+          "type": "string"
+        },
+        "resources": {
+          "$ref": "#/definitions/CloudFormationListStackResources"
+        }
+      }
+    },
+    "CloudFormationListStackResources": {
+      "title": "CloudFormationListStackResources",
+      "description": "Partial boto3 response object",
+      "type": "object",
+      "properties": {
+        "ResponseMetadata": {
+          "type": "object"
+        },
+        "StackResourceSummaries": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CloudFormationStackResourceSummaries"
+          }
+        }
+      }
+    },
+    "CloudFormationStackResourceSummaries": {
+      "title": "CloudFormationStackResourceSummaries",
+      "description": "Partial boto3 response object",
+      "type": "object",
+      "properties": {
+        "DriftInformation": {
+          "type": "object"
+        },
+        "LastUpdatedTimestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "LogicalResourceId": {
+          "type": "string"
+        },
+        "PhysicalResourceId": {
+          "type": "string"
+        },
+        "ResourceStatus": {
+          "type": "string"
+        },
+        "ResourceType": {
+          "type": "string"
+        }
+      }
+    },
+    "CodesRequest": {
+      "title": "CodesRequest",
+      "type": "object",
+      "properties": {
+        "quantity": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "EventType": {
+      "title": "EventType",
+      "example": "backup",
+      "type": "string",
+      "enum": [
+        "backup",
+        "restore"
+      ]
+    },
+    "eventtype1": {
+      "title": "eventtype1",
+      "example": "getsecret",
+      "type": "string",
+      "enum": [
+        "getsecret",
+        "getinstances",
+        "getstats",
+        "getbackups",
+        "getirisinfos"
+      ]
+    },
+    "NotificationsRequest": {
+      "title": "NotificationsRequest",
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "appContext": {
+          "type": "string"
+        },
+        "errorDescription": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      }
+    },
+    "Resourcetype": {
+      "title": "Resourcetype",
+      "example": "EC2",
+      "type": "string",
+      "enum": [
+        "EC2"
+      ]
+    },
+    "Status": {
+      "title": "Status",
+      "example": "NEW",
+      "type": "string",
+      "enum": [
+        "NEW",
+        "INPROGRESS",
+        "COMPLETED",
+        "FAILED",
+        "REFRESH"
+      ]
+    },
+    "Status1": {
+      "title": "Status1",
+      "example": "pending",
+      "type": "string",
+      "enum": [
+        "pending",
+        "running",
+        "shutting-down",
+        "terminated",
+        "stopping",
+        "stopped"
+      ]
+    },
+    "Status2": {
+      "title": "Status2",
+      "example": "COMPLETED",
+      "type": "string",
+      "enum": [
+        "COMPLETED",
+        "IN PROGRESS",
+        "STARTED",
+        "FAILED"
+      ]
+    },
+    "Status3": {
+      "title": "Status3",
+      "example": "initiating-request",
+      "type": "string",
+      "enum": [
+        "initiating-request",
+        "pending-acceptance",
+        "active",
+        "deleted",
+        "rejected",
+        "failed",
+        "expired",
+        "provisioning",
+        "deleting"
+      ]
+    },
+    "Tenantid": {
+      "title": "Tenantid",
+      "type": "object",
+      "properties": {
+        "tenant_name": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "default": {
+          "example": false,
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "Tenants": {
+      "title": "Tenants",
+      "type": "object",
+      "properties": {
+        "tenantid": {
+          "$ref": "#/definitions/Tenantid"
+        }
+      }
+    },
+    "TenantsRequest": {
+      "title": "TenantsRequest",
+      "type": "object",
+      "properties": {
+        "owner_name": {
+          "type": "string"
+        },
+        "tenant_name": {
+          "type": "string"
+        }
+      }
+    },
+    "UsersRequest": {
+      "title": "UsersRequest",
+      "type": "object",
+      "properties": {
+        "first_name": {
+          "type": "string"
+        },
+        "last_name": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Codes",
+      "description": ""
+    },
+    {
+      "name": "Users",
+      "description": ""
+    },
+    {
+      "name": "Tenants",
+      "description": ""
+    },
+    {
+      "name": "Deployment",
+      "description": ""
+    },
+    {
+      "name": "Operations",
+      "description": ""
+    }
+  ]
+}
